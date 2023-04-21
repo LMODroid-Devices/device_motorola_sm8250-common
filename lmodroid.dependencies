@@ -1,9 +1,11 @@
 [
   {
+    "remote": "lineage",
     "repository": "android_kernel_motorola_sm8250",
     "target_path": "kernel/motorola/sm8250"
   },
   {
+    "remote": "lineage",
     "repository": "android_hardware_motorola",
     "target_path": "hardware/motorola"
   }

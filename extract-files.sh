@@ -71,20 +71,14 @@ function blob_fixup_common() {
         system_ext/etc/permissions/moto-telephony.xml)
             sed -i "s#/system/#/system_ext/#" "${2}"
             ;;
-        vendor/bin/thermal-engine)
-            sed -i 's/ro.mot.build.customerid/vendor.build.customerid/g' "${2}"
-            ;;
-        vendor/bin/rmt_storage)
+        vendor/bin/thermal-engine | vendor/bin/rmt_storage | vendor/lib64/libril-qc-hal-qmi.so)
             sed -i 's/ro.mot.build.customerid/vendor.build.customerid/g' "${2}"
             ;;
         vendor/etc/init/vendor.qti.hardware.alarm@1.0-service.rc)
             sed -i "/disabled/d" "${2}"
             ;;
-        vendor/lib64/hw/camera.qcom.so)
+        vendor/lib64/hw/camera.qcom.so | vendor/lib64/hw/com.qti.chi.override.so)
             sed -i "s/camera.mot.is.coming.cts/vendor.camera.coming.cts/g" "${2}"
-            ;;
-        vendor/lib64/libril-qc-hal-qmi.so)
-            sed -i 's/ro.mot.build.customerid/vendor.build.customerid/g' "${2}"
             ;;
         vendor/lib64/vendor.qti.hardware.camera.postproc@1.0-service-impl.so)
             hexdump -ve '1/1 "%.2X"' "${2}" | sed "s/130A0094/1F2003D5/g" | xxd -r -p > "${EXTRACT_TMP_DIR}/${1##*/}"
@@ -95,21 +89,17 @@ function blob_fixup_common() {
 
 if [ -z "${ONLY_TARGET}" ]; then
     # Initialize the helper for common device
-    setup_vendor "${DEVICE_COMMON}" "${VENDOR}" "${ANDROID_ROOT}" true "${CLEAN_VENDOR}"
+    setup_vendor "${DEVICE_COMMON}" "${VENDOR_COMMON:-$VENDOR}" "${ANDROID_ROOT}" true "${CLEAN_VENDOR}"
 
-    extract "${MY_DIR}/proprietary-files-rec.txt" "${SRC}" "${KANG}" --section "${SECTION}"
     extract "${MY_DIR}/proprietary-files.txt" "${SRC}" "${KANG}" --section "${SECTION}"
 fi
 
-if [ -z "${ONLY_COMMON}" ] && [ -s "${MY_DIR}/../${DEVICE}/proprietary-files.txt" ]; then
+if [ -z "${ONLY_COMMON}" ] && [ -s "${MY_DIR}/../../${VENDOR}/${DEVICE}/proprietary-files.txt" ]; then
     # Reinitialize the helper for device
-    source "${MY_DIR}/../${DEVICE}/extract-files.sh"
+    source "${MY_DIR}/../../${VENDOR}/${DEVICE}/extract-files.sh"
     setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}" false "${CLEAN_VENDOR}"
 
-    extract "${MY_DIR}/../${DEVICE}/proprietary-files.txt" "${SRC}" "${KANG}" --section "${SECTION}"
-    if [ -s "${MY_DIR}/../${DEVICE}/proprietary-files-rec.txt" ]; then
-        extract "${MY_DIR}/../${DEVICE}/proprietary-files-rec.txt" "${SRC}" "${KANG}" --section "${SECTION}"
-    fi
+    extract "${MY_DIR}/../../${VENDOR}/${DEVICE}/proprietary-files.txt" "${SRC}" "${KANG}" --section "${SECTION}"
 fi
 
 "${MY_DIR}/setup-makefiles.sh"

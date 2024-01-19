@@ -949,6 +949,9 @@ vendor/etc/init/vendor.qti.hardware.soter@1.0-service.rc
 vendor/lib64/hw/vendor.qti.hardware.soter@1.0-impl.so
 vendor/lib64/vendor.qti.hardware.soter@1.0.so
 
+# Subsystem restart
+vendor/bin/ssr_setup
+
 # Thermal
 vendor/bin/thermal-engine
 vendor/etc/init/init_thermal-engine.rc
@@ -965,9 +968,7 @@ vendor/lib64/libtime_genoff.so
 
 # Vibrator firmware
 vendor/firmware/aw8695_haptic.bin
-vendor/firmware/aw8695_haptic.bin:vendor_ramdisk/lib/firmware/aw8695_haptic.bin
 vendor/firmware/aw8695_rtp.bin
-vendor/firmware/aw8695_rtp.bin:vendor_ramdisk/lib/firmware/aw8695_rtp.bin
 
 # VPP
 vendor/bin/vppservice

@@ -527,7 +527,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.netflix.bsp_rev=Q8250-19134-1
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.mot.build.customerid=retcn \
+    persist.vendor.ssr.restart_level=ALL_ENABLE \
+    vendor.build.customerid=retcn \
     ro.vendor.mot.factory=false
 
 # Enable zygote critical window.

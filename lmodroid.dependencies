@@ -5,8 +5,7 @@
     "target_path": "kernel/motorola/sm8250"
   },
   {
-    "remote": "lineage",
-    "repository": "android_hardware_motorola",
+    "repository": "LMODroid/platform_hardware_motorola",
     "target_path": "hardware/motorola"
   }
 ]
